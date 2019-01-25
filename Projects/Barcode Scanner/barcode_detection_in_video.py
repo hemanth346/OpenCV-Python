@@ -29,12 +29,21 @@ while (vid.isOpened()):
     gradient = cv2.subtract(xGrad,yGrad) # to get regions with high horizontal and low vertical gradients
     gradient = cv2.convertScaleAbs(gradient)
     #blur and threshold
+    #gblurred = cv2.GaussianBlur(gradient,(9,9),0)
+    #(_,gthreshold) = cv2.threshold(gblurred,128,255,cv2.THRESH_BINARY)
     blurred = cv2.blur(gradient,(9,9))
     (_,threshold) = cv2.threshold(blurred,225,255,cv2.THRESH_BINARY)
-    #gblurred = cv2.GaussianBlur(gradient,(9,9),0)
-    #(_,gthreshold) = cv2.threshold(gblurred,225,255,cv2.THRESH_BINARY)
-
-
+    #to close the gaps and get a rectanglur block over code
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (27, 9))    #using kernel with high width to be able to get some distance bars in barcode
+    closed = cv2.morphologyEx(threshold, cv2.MORPH_CLOSE, kernel)
+    opened = cv2.morphologyEx(closed, cv2.MORPH_OPEN, None, iterations = 9)    #to remove small unnecessary blobs; erosion followed by dilation
+    _,cnts,_ = cv2.findContours(opened.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    for cnt in cnts:
+        rect = cv2.minAreaRect(cnt)
+        box = cv2.boxPoints(rect)
+        box = np.int0(box)
+        cv2.drawContours(img, [box], -1, (0, 128, 193), 3)
+    cv2.imshow("Image", img)
     key = cv2.waitKey(1) & 0xFF
 
     if key == ord('q'):
@@ -48,3 +57,13 @@ cv2.destroyAllWindows()
 #    cv2.imshow("Threshold",threshold)
 #    cv2.imshow("GBlurred",gblurred)
 #    cv2.imshow("GThreshold",gthreshold)
+#    cv2.imshow("Closed",closed)
+#    cv2.imshow("Opened",opened)
+
+
+#    c = sorted(cnts, key = cv2.contourArea, reverse = True)[0]
+#    rect = cv2.minAreaRect(c)
+#    box = cv2.boxPoints(rect)
+#    box = np.int0(box)
+#    cv2.drawContours(img, [box], -1, (0, 128, 193), 3)
+#    cv2.imshow("Image", img)
