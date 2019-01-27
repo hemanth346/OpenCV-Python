@@ -1,6 +1,3 @@
-
-#Work in progress
-
 import numpy as np
 import cv2
 import argparse
@@ -59,11 +56,3 @@ cv2.destroyAllWindows()
 #    cv2.imshow("GThreshold",gthreshold)
 #    cv2.imshow("Closed",closed)
 #    cv2.imshow("Opened",opened)
-
-
-#    c = sorted(cnts, key = cv2.contourArea, reverse = True)[0]
-#    rect = cv2.minAreaRect(c)
-#    box = cv2.boxPoints(rect)
-#    box = np.int0(box)
-#    cv2.drawContours(img, [box], -1, (0, 128, 193), 3)
-#    cv2.imshow("Image", img)
