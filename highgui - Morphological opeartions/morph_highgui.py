@@ -6,10 +6,17 @@ parser = argparse.ArgumentParser(description = "Code for various morphological o
 parser.add_argument("-i","--image",required=True,help="Path to input image")
 args = vars(parser.parse_args())
 
-image = cv2.imread(args["image"])
-gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
-cv2.imshow("Gray scaled image", gray)
-blurred = cv2.GaussianBlur(gray,(9,9),0)
+try:
+    image = cv2.imread(args["image"])
+    gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+    cv2.imshow("Gray scaled image", gray)
+    blurred = cv2.GaussianBlur(gray,(9,9),0)
+
+    width = image.shape[1]
+    height = image.shape[0]
+    output_dim = (width, height)
+except:
+    exit("Please check filename or if only image is given as input")
 
 def morphex(val):
     (_, thresh) = cv2.threshold(blurred,128,255,cv2.THRESH_BINARY)
@@ -67,7 +74,8 @@ def get_morphed_image(thresh,morph_window):
     kernel_name = ['-Rect-','-Cross-','-Ellipse-']
     text = type + kernel_name[shape] + str(ksize)
     cv2.putText(img, text , (20,20),cv2.FONT_HERSHEY_SIMPLEX,0.7,(192,234,123),1)
-    cv2.imshow(morph_window,img)
+    output = cv2.resize(img, output_dim)
+    cv2.imshow(morph_window,output)
 
 
 max_types = 6
@@ -81,21 +89,21 @@ title_trackbar_kersize = "Size of kernel: \n 2n+1"
 #title_trackbar_kersize = "Kernel size: \n 2n+1"
 
 morph_window = "Play with morphological Transforms"
-cv2.namedWindow(morph_window)
+cv2.namedWindow(morph_window, cv2.WINDOW_NORMAL)
 
 cv2.createTrackbar(title_trackbar_morphtype, morph_window, 0, max_types, morphex)
 cv2.createTrackbar(title_trackbar_kershape, morph_window, 0, max_shapes, morphex)
 cv2.createTrackbar(title_trackbar_kersize, morph_window, 0, max_size, morphex)
 
 morph_window2 = "Play with morphological Transforms_2"
-cv2.namedWindow(morph_window2)
+cv2.namedWindow(morph_window2, cv2.WINDOW_NORMAL)
 
 cv2.createTrackbar(title_trackbar_morphtype, morph_window2, 0, max_types, morphex2)
 cv2.createTrackbar(title_trackbar_kershape, morph_window2, 0, max_shapes, morphex2)
 cv2.createTrackbar(title_trackbar_kersize, morph_window2, 0, max_size, morphex2)
 
 morph_window3 = "Play with morphological Transforms_3"
-cv2.namedWindow(morph_window3)
+cv2.namedWindow(morph_window3, cv2.WINDOW_NORMAL)
 
 cv2.createTrackbar(title_trackbar_morphtype, morph_window3, 0, max_types, morphex3)
 cv2.createTrackbar(title_trackbar_kershape, morph_window3, 0, max_shapes, morphex3)

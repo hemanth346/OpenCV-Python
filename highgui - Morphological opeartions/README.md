@@ -1,14 +1,24 @@
-## Created a HighGUI to play with Morphological transformations and get intuitive understanding of how the operations work on images.
+# HighGUI to play with Morphological transformations
 
-#### Usage : python morph_highgui.py -i [image]
+A simple API to see effects of different Morphological transformations on the image and get intuitive understanding of how the operations work on images
 
-----
+Watch the video here:
 
+## Requirements
+- Python
+- cv2
 
+## Usage
+```
+python morph_highgui.py -i <image_path>
+```
 
-![Screenshot with tetris image in folder](./src/screenshot.PNG)
+## Output examples
 
+<img src="./src/screenshot.PNG" alt="Output Fig. 1" width="500"/>
 
-Versions:
-- Python 3.6.4
-- OpenCV 3.4.1
+<img src="src\image.png" alt="Output Fig. 2" width="500"/>
+
+<img src="src\image.png" alt="Output Fig. 3" width="500"/>
+
+<img src="src\image.png" alt="Output Fig. 4" width="500"/>
