@@ -11,6 +11,8 @@ cascade = '.\haarcascades\haarcascade_frontalface_default.xml'
 nested_cascade = '.\haarcascades\haarcascade_eye.xml'
 face_cascade = cv2.CascadeClassifier(cascade)
 eye_cascade = cv2.CascadeClassifier(nested_cascade)
+scale_factor = 1.3
+min_neighbors = 5
 
 #choosing capture method
 vid = cv2.VideoCapture(args["video"]) if args.get("video",True) else cv2.VideoCapture(0)
@@ -26,7 +28,7 @@ while (vid.isOpened()):
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+    faces = face_cascade.detectMultiScale(gray, scale_factor, min_neighbors)
     for (x,y,w,h) in faces:
         cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
         roi_gray = gray[y:y+h, x:x+w]
