@@ -13,13 +13,17 @@ try:
     global_blurred = cv2.blur(gray,(2,2))
     _,global_thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY_INV)
 
-    screen_res = 1280, 720
-    scale_width = screen_res[0] / image.shape[1]
-    scale_height = screen_res[1] / image.shape[0]
-    scale = min(scale_width, scale_height)
-    out_width = int(image.shape[1] * scale)
-    out_height = int(image.shape[0] * scale)
-    output_dim = (out_width, out_height)
+    (height, width) = image.shape[:2]
+    out_width = 640
+    out_height = int((height * out_width)/width)
+    output_dim=(out_width, out_height) #to maintain output aspect ratio
+    # screen_res = 1280, 720
+    # scale_width = screen_res[0] / image.shape[1]
+    # scale_height = screen_res[1] / image.shape[0]
+    # scale = min(scale_width, scale_height)
+    # out_width = int(image.shape[1] * scale)
+    # out_height = int(image.shape[0] * scale)
+    # output_dim = (out_width, out_height)
 except:
     exit("Please check filename or if only image is given as input")
 
@@ -103,7 +107,8 @@ def blur_track(val):
     '''
     output,text = blur_img(gray)
     output = cv2.resize(output, output_dim)
-    cv2.putText(output, text, (int(out_width * 0.1), int(out_height*0.2)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,0), 2)
+    cv2.putText(output, text, (30,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+    # cv2.putText(output, text, (int(out_width * 0.1), int(out_height*0.2)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,0), 2)
     cv2.imshow(title_window_blur,output)
     combined()
 
@@ -114,7 +119,7 @@ def thresh_track(val):
     '''
     output,name = thresh_img(gray)
     output = cv2.resize(output, output_dim)
-    cv2.putText(output, name, (int(out_width * 0.1), int(out_height*0.2)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,0), 2)
+    cv2.putText(output, name, (30,30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,0), 2)
     cv2.imshow(title_window_thresh,output)
     combined()
 

@@ -1,8 +1,8 @@
-# HighGUI to play with Morphological transformations
+# API to play with Morphological transformations
 
 A simple API to see effects of different Morphological transformations on the image and get intuitive understanding of how the operations work on images
 
-Watch the video here:
+Watch the video here: **--**
 
 ## Requirements
 - Python
@@ -10,7 +10,7 @@ Watch the video here:
 
 ## Usage
 ```
-python morph_highgui.py -i <image_path>
+python morph_highgui.py -i <image>
 ```
 
 ## Output examples
@@ -22,3 +22,12 @@ python morph_highgui.py -i <image_path>
 <img src="src\image.png" alt="Output Fig. 3" width="500"/>
 
 <img src="src\image.png" alt="Output Fig. 4" width="500"/>
+
+
+# Contributions
+
+Want to contribute?
+
+Shoot me a message or Please open an issue.
+
+> Can improve output window aspect ratio
