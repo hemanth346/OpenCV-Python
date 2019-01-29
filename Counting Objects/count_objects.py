@@ -1,6 +1,5 @@
 import cv2
 import argparse
-import imutils
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", required=True, help="Provide path to input image file")
@@ -21,7 +20,12 @@ thresh = cv2.threshold(gray, 225, 255, cv2.THRESH_BINARY_INV)[1]		# Thresholding
 
 # Detecting and drawing contours
 cnt_mat = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-cnts = cnt_mat[1] #as we have cv version 3.4
+if len(cnt_mat) == 2 :
+    # OpenCV v2.4, v4-beta, or v4-official
+    cnts = cnt_mat[0]
+elif len(contours) == 3:
+    # OpenCV v3, v4-pre, or v4-alpha
+    cnts = cnt_mat[1]
 output = image.copy()
 for c in cnts:
     cv2.drawContours(output, [c], -1, (255,0,0), 3)

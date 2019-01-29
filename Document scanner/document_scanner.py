@@ -1,6 +1,5 @@
 import numpy as np
 import cv2
-import imutils
 from skimage.filters import threshold_local
 import argparse
 
@@ -77,11 +76,12 @@ def four_point_perspective_transform(image, pts):
 file = args["image"]
 image = cv2.imread(file)
 original = image.copy()
-#In order to speedup image processing, as well as make our edge detection step more accurate resizing image
-image = imutils.resize(image, height=500)
+(h,w) = original.shape[:2]
 # Calculating aspect ratio, to scale back the image if required when displaying the output
-aspect_ratio = original.shape[0] / 500.0
-
+aspect_ratio =  h / 500.0
+dim = (int(w * aspect_ratio), h)
+#In order to speedup image processing, as well as make our edge detection step more accurate resizing image
+image = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
 gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
 
 #  perform Gaussian blurring to remove high frequency noise (aiding in contour detection), and performing Canny edge detection.
